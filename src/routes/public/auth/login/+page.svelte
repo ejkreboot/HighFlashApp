@@ -39,3 +39,7 @@ article {
   <div></div>
 </article>
 </div>
+
+<form method="POST" action="/login">
+  <!-- content -->
+</form>

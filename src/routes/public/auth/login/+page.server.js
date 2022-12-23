@@ -6,7 +6,7 @@ export const actions = {
     default: async ({ request, cookies }) => {
         const form = await request.formData();
         const email = form.get('email');
-        const password = form.get('password');            
+        const token = form.get('password');            
         const user = await User.findOne({where: { email: email } });
         const passwordMatch = user && (await bcrypt.compare(password, user.password));
 
