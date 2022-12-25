@@ -12,6 +12,15 @@ export const handle = async ({ event, resolve }) => {
     throw redirect(307, '/public/auth/login');
   }
 
+  const url = "https://www.highflowpeds.com/_functions/hfpSSO"
+  const response = await fetch(url, {
+    method: 'GET',
+    credentials: 'include'
+  })
+  const token = await response.json();
+  console.log("!!!!! Auth attempt response: ")
+  console.log(token);
+
   if (!session) {
     const regex = /^\/public/g;
     const pub = path.match(regex);
@@ -22,9 +31,6 @@ export const handle = async ({ event, resolve }) => {
       // const response = await fetch(url, {
       //   method: 'GET'
       // })
-      // const token = await response.json();
-      // console.log(token);
-
       // const private_key = fs.readFileSync('./data/hfp_public_key', 'utf8');
       // const options = {
       //   issuer:  'highflowpeds.com',
