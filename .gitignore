@@ -22,3 +22,5 @@ vite.config.ts.timestamp-*
 .vscode/*
 .vscode
 init-users.js
+.env
+data/hfp_public_key

@@ -1,7 +1,8 @@
 import { User } from '$lib/server/user.js';
 import cookie from 'cookie';
 import { Cards } from "high-flash";
-const c = new Cards(true, 'data/cards.sqlite');
+
+const c = new Cards();
 
 // study card
 export async function GET({ request, params }) {
@@ -12,13 +13,9 @@ export async function GET({ request, params }) {
         attributes: ["email", "id"],
         where: { token: session } 
     });
-
-  // get categories
-
-  // get studying
-
-  // get studying and interval > 10
+  
   const perf = await Promise.all(categories.map(async cat => { 
+    await c.start_studying(user.email, cat)
     const sc = await c.studying_count(user.email, cat);
     const nsc = await c.not_studying_count(user.email, cat);
     const m = await c.mastered_count(user.email, cat);
@@ -33,7 +30,6 @@ export async function GET({ request, params }) {
   }))
   return new Response(JSON.stringify(perf));
 }
-
 
 // study card
 export async function POST({ request, params }) {

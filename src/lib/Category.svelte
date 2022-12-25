@@ -22,7 +22,7 @@
         <div class="text-box">
             <div class="text">
                 <span class="bold"><a href = {root + category}>{ category }</a></span>
-                <span> ({ studying } of { total } studied, { mastered }% mastered)</span>
+                <span> ({ studying } of { total } active, { mastered }% mastered)</span>
         </div>
     </div>
 </div>

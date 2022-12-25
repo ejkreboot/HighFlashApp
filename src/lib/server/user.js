@@ -1,17 +1,22 @@
+import * as dotenv from 'dotenv' 
+dotenv.config()
+import mysql from 'mysql2/promise';
 import { Sequelize, DataTypes } from 'sequelize';
 import { nanoid } from 'nanoid';
 import * as bcrypt from 'bcrypt'
 
 const path = "data/users.sqlite";
 
-const sequelize = new Sequelize(
-    {    
-        "logging": false,
-        "dialect": "sqlite",
-        "storage": path,
-        "query": {"raw": true}
-    }
-);
+let config = {
+    username: process.env.HIGHFLASH_DB_USERNAME || "admin",
+    password: process.env.HIGHFLASH_DB_PASSWORD || "",
+    database: process.env.HIGHFLASH_DB_DATABASE || "test",
+    host: process.env.HIGHFLASH_DB_HOST || "localhost",
+    dialect: process.env.HIGHFLASH_DB_DIALECT || "mysql",
+    logging: false
+}
+
+const sequelize = new Sequelize(config);
 
 // User model
 export const User = sequelize.define('User', {
@@ -29,6 +34,23 @@ export const User = sequelize.define('User', {
     newpassword: DataTypes.TEXT, // holding slot for pending new password
     expired: DataTypes.BOOLEAN
 });
+
+
+// make sure the database exists and create table if needed.
+export async function Init(drop = false) {
+    const {host, username, password, database} = config;
+    const connection = await mysql.createConnection({
+        host:  host,
+        user: username,
+        password: password
+    });
+    const res = await connection.query('CREATE DATABASE IF NOT EXISTS ' + database);
+    await User.sync();
+    if(drop) {
+        await User.destroy({ where: {} })
+    }
+    connection.end();
+}
 
 // add a user to the databse with pending status.
 export async function Add(e, p) {
@@ -112,4 +134,10 @@ export async function Confirm(e, k) {
     } else {
         return(false)
     }
+}
+
+// close the connection
+export async function Close() {
+    sequelize.close()
+    return;
 }

@@ -2,7 +2,7 @@ import { User } from '$lib/server/user.js';
 import { Cards } from "high-flash";
 import cookie from 'cookie';
 
-const c = new Cards(true, 'data/cards.sqlite');
+const c = new Cards();
 
 // get next card for studying
 export async function GET({ request, params, url }) {

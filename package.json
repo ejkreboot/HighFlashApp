@@ -15,7 +15,8 @@
     "scss": "^0.2.4",
     "svelte": "^3.44.0",
     "svelte-preprocess": "^4.10.7",
-    "vite": "^4.0.1"
+    "vite": "^4.0.1",
+    "why-is-node-still-running": "^1.0.0"
   },
   "type": "module",
   "dependencies": {
@@ -23,6 +24,7 @@
     "filedrop-svelte": "^0.1.2",
     "filereader": "^0.10.3",
     "form-data": "^4.0.0",
+    "getopts": "^2.3.0",
     "high-flash": "github:ejkreboot/High-Flash",
     "jsonwebtoken": "^9.0.0",
     "marked": "^4.2.3",

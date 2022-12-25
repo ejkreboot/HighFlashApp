@@ -3,11 +3,13 @@ import { User } from '$lib/server/user.js';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 
+User.sync();
+
 export const handle = async ({ event, resolve }) => {
   const session = event.cookies.get('session')
   const path = event.url.pathname;
   if(path == "/") {
-    throw redirect(307, '/public/landing');
+    throw redirect(307, '/public/auth/login');
   }
 
   if (!session) {
@@ -16,22 +18,22 @@ export const handle = async ({ event, resolve }) => {
     if(!pub) {
       // requested a protected route but not logged in
       // attempt SSO login
-      const url = "https://www.highflowpeds.com/_functions/hfpSSO"
-      const response = await fetch(url, {
-        method: 'GET'
-      })
-      const token = await response.json();
-      console.log(token);
+      // const url = "https://www.highflowpeds.com/_functions/hfpSSO"
+      // const response = await fetch(url, {
+      //   method: 'GET'
+      // })
+      // const token = await response.json();
+      // console.log(token);
 
-      const private_key = fs.readFileSync('./data/hfp_public_key', 'utf8');
-      const options = {
-        issuer:  'highflowpeds.com',
-        audience:  'hfpsso',
-        expiresIn:  "1d",
-        algorithms: ["RS256"]
-      };
-      const user_data = jwt.verify(token, token, options);
-      console.log(user_data);
+      // const private_key = fs.readFileSync('./data/hfp_public_key', 'utf8');
+      // const options = {
+      //   issuer:  'highflowpeds.com',
+      //   audience:  'hfpsso',
+      //   expiresIn:  "1d",
+      //   algorithms: ["RS256"]
+      // };
+      // const user_data = jwt.verify(token, token, options);
+      // console.log(user_data);
 
       throw redirect(307, '/public/auth/login');
     } else {
@@ -51,7 +53,7 @@ export const handle = async ({ event, resolve }) => {
     if(admin) {
       if(!user.group == "admin") {
         // requested an admin route but not an admin
-        throw redirect(403, '/protected/landing');
+        throw redirect(403, '/protected/study');
       }
     }
     event.locals.user = {

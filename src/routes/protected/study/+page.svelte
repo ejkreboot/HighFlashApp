@@ -3,7 +3,6 @@
     import Breadcrumb from '$lib/Breadcrumb.svelte';
     import Category from '$lib/Category.svelte';
 
-    
     async function get_categories () {
         const url = '/api/user/performance/';
         const response = await fetch(url, {

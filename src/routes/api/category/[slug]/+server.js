@@ -1,5 +1,6 @@
 import { Cards } from "high-flash";
-const c = new Cards(true, 'data/cards.sqlite');
+
+const c = new Cards();
 
 // get all cards for specified category
 export async function GET({ request, url, params }) {
