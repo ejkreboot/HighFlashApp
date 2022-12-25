@@ -35,3 +35,4 @@
 
 <slot />
 
+<center><small>Copyright 2022 Eric J. Kort. All rights reserved.</small></center>
