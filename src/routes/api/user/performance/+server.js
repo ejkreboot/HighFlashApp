@@ -13,7 +13,6 @@ export async function GET({ request, params }) {
         attributes: ["email", "id"],
         where: { token: session } 
     });
-  
   const perf = await Promise.all(categories.map(async cat => { 
     await c.start_studying(user.email, cat)
     const sc = await c.studying_count(user.email, cat);
@@ -28,6 +27,7 @@ export async function GET({ request, params }) {
       total_cards: total
     })
   }))
+
   return new Response(JSON.stringify(perf));
 }
 

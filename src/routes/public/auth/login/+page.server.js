@@ -2,6 +2,8 @@ import { redirect } from '@sveltejs/kit';
 import * as bcrypt from 'bcrypt'
 import { User } from '$lib/server/user.js';
 
+// /login
+
 export const actions = {
     default: async ({ request, cookies }) => {
         const form = await request.formData();
@@ -12,7 +14,7 @@ export const actions = {
 
         if(passwordMatch && user.status == "verified") {
             const authToken = crypto.randomUUID();
-            await User.update(
+            await User.upsert(
                 { 
                     token: authToken
                 },

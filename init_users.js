@@ -13,22 +13,31 @@ const options = getopts(process.argv.slice(2), {
   })
 
 async function create_user(e, p, g) {
-    const key = nanoid(6);
     await User.sync();
     let uuid = nanoid();
     const pwd = await(bcrypt.hash(p, 10));
-    await User.create({
-        email: e,
-        id: uuid,
-        token: null,
-        status: "verified",
-        password: pwd,
-        key: key,
-        reset: null,
-        newpassword: null,
-        group: g, 
-        expired: false
-    });
+    let ok = true;
+    try{
+        await User.create({
+            email: e,
+            token: null,
+            status: "verified",
+            password: pwd,
+            reset: null,
+            newpassword: null,
+            group: g, 
+            expired: false
+        });
+    } catch(e) {
+        if(!e.name.match("SequelizeUniqueConstraintError"))
+        {
+            throw(e)
+        } else {
+            console.log("Warning: create user ignored as user already exists")
+            ok = false;
+        }
+    }
+    return ok;
 }
 
 if(options.u) {
@@ -43,9 +52,13 @@ if(options.d) {
     await Init();
 }
 
+var token;
+
 await create_user("me@mail.com", "mypassword", "admin")
 await create_user("jane@mail.com", "janepassword", "regular")
 await create_user("bob@mail.com", "bobpassword", "regular")
+// await User.upsert({email: "me@mail.com", status: "verified", token: token})
+
 await Close();
 
 console.log("Done.\n");

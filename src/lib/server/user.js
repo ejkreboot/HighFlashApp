@@ -21,15 +21,19 @@ const sequelize = new Sequelize(config);
 // User model
 export const User = sequelize.define('User', {
     id: {
-        type: DataTypes.UUID,
-        primaryKey: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
-    email: DataTypes.TEXT,
+    email: {
+        type: DataTypes.TEXT(100),
+        unique: true
+    },
     password: DataTypes.TEXT,
     group: DataTypes.TEXT,
     status: DataTypes.TEXT,
     token: DataTypes.TEXT, // session token
-    key: DataTypes.TEXT, // verification key
+    key: DataTypes.TEXT, // verification key for email verification
     reset: DataTypes.TEXT, // set to "pending" if pwd reset in progress
     newpassword: DataTypes.TEXT, // holding slot for pending new password
     expired: DataTypes.BOOLEAN
@@ -60,7 +64,6 @@ export async function Add(e, p) {
     const pwd = await(bcrypt.hash(p, 10));
     await User.create({
         email: e,
-        id: uuid,
         token: null,
         status: "pending",
         password: pwd,
