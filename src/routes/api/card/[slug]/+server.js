@@ -17,3 +17,4 @@ export async function POST({ request, params }) {
   c.update_card(card);
   return new Response(JSON.stringify({result: "OK"}));
 }
+

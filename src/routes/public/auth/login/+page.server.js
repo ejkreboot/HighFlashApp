@@ -11,15 +11,12 @@ export const actions = {
         const password = form.get('password');            
         const user = await User.findOne({where: { email: email } });
         const passwordMatch = user && (await bcrypt.compare(password, user.password));
-
         if(passwordMatch && user.status == "verified") {
             const authToken = crypto.randomUUID();
             await User.upsert(
                 { 
+                    email: email,
                     token: authToken
-                },
-                {
-                    where: { email: email }
                 }
             );    
             cookies.set('session', authToken, {

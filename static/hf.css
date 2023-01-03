@@ -6,6 +6,7 @@
     --gray: #2f2e2e;
     --yellow: rgb(248, 201, 16);
     --green: #21aa3a;
+    --gray:  #9ca4b4;
 }
 
 .container {
@@ -45,6 +46,15 @@ p {
 
 .green-text {
     color: var(--green);
+}
+
+.gray {
+    background-color: var(--gray);
+    color: white;
+}
+
+.gray-text {
+    color: var(--gray);
 }
 
 nav {

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node init_cards.js; node init_users.js; vite dev",
+    "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview"
   },

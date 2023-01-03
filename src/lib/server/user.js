@@ -26,7 +26,7 @@ export const User = sequelize.define('User', {
         autoIncrement: true
     },
     email: {
-        type: DataTypes.TEXT(100),
+        type: DataTypes.STRING(100),
         unique: true
     },
     password: DataTypes.TEXT,

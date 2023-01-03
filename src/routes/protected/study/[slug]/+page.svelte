@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import { marked } from "marked";
   import Breadcrumb from '$lib/Breadcrumb.svelte';
-  let card = {front: "", back: ""}
+  let card = {front: "", back: "", n: 0, interval: 0, efactor: 1.3}
   card.score = {};
 
   $: front = card.front;
@@ -16,7 +16,7 @@
               method: 'GET',
           })
       const card = await response.json();
-      card.score = await get_card_score(card.uuid);
+      set_color(card.score);
       return card;
   }
 
@@ -28,9 +28,8 @@
         })
     const res = await response.json();
     card = res.next_card;
-    card.score = res.score;
     reset_card();
-    set_color(res.score);
+    set_color(card.score);
     return;
   }
 
@@ -38,7 +37,10 @@
     document.getElementsByClassName("card-title")[0].classList.remove("red-text");
     document.getElementsByClassName("card-title")[0].classList.remove("yellow-text");
     document.getElementsByClassName("card-title")[0].classList.remove("green-text");
-    if(score.interval < 2) {
+    document.getElementsByClassName("card-title")[0].classList.remove("gray-text");
+    if(score.interval == 0) {
+      document.getElementsByClassName("card-title")[0].classList.add("gray-text");
+    } else if(score.interval < 2) {
       document.getElementsByClassName("card-title")[0].classList.add("red-text");
     } else if(score.interval < 10) {
       document.getElementsByClassName("card-title")[0].classList.add("yellow-text");
