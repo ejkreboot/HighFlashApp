@@ -39,7 +39,7 @@ async function fetch_session(token) {
 // (via http refresh so we can set cookie).
 export async function GET({ request, url }) {
   var session_token, destination;
-  const public_key = fs.readFileSync('data/hfp_public_key', 'utf8');
+  const public_key = process.env.WIX_SSO_PUBLIC_KEY || fs.readFileSync('data/hfp_public_key', 'utf8');
   const idp_session_token = url.searchParams.get('session_token');
 
   if(idp_session_token) {
