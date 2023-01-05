@@ -22,10 +22,10 @@
             <li><a href="/protected/study">Flash Cards</a></li>
             <li>Handouts</li>
             <li>Podcasts</li>
-            <li><a href="/public/landing"
+            <li><a href="/protected/logout"
                  on:click={() => document.getElementById("logout").submit()}>Logout</a></li>
             <form id="logout" style="display: none" 
-                      action="/public/auth/logout" 
+                      action="/protected/logout" 
                       method="POST">
                 </form>
             
