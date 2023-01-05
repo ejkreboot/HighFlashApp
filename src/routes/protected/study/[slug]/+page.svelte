@@ -116,8 +116,17 @@
   <button class="yellow" on:click={function(){study_card(3)}}>sorta.</button>
   <button class="green" on:click={function(){study_card(5)}}>got it.</button>
 </div>
-<div class = "sveltefix container-fluid card-flipped middle-shadow middle-shadow off red-text yellow-text green-text">
-    
+
+<!-- invisible div to ensure css styles are not omitted by 
+     sveltekit if not present on initial page render.       -->
+<div class = "sveltefix card container-fluid card-content card-flipped middle-shadow middle-shadow off red-text yellow-text green-text">
+    <ul>
+      <li>.</li>
+    </ul>
+    <ol>
+      <li>.</li>
+    </ol>
+    <p>.</p>
 </div>
 </main>
 
@@ -182,7 +191,7 @@
 }
 
 .card-front {
-  background-color: white;
+  background-color: rgb(249, 249, 249);
 }
 
 

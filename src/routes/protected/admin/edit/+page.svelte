@@ -1,9 +1,17 @@
 <script>
     import { onMount } from 'svelte';
+    import { enhance } from '$app/forms';
     import Breadcrumb from '$lib/Breadcrumb.svelte';
     import Edittable from '$lib/Edittable.svelte';
+
     let cards = [];
+    let files, filenames = [];
+    export let message = "or drag and drop files here."
+    export let allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF"];
+    
+    export let form;
     export let data; 
+
 
     async function fetch_cards () {
         const category = document.getElementById("category").value;
@@ -34,10 +42,24 @@
         let res = await response.json();
     }
 
-    let files, filenames = [];
-    export let form;
-    export let message = "or drag and drop files here."
-    export let allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF"];
+
+    function show_progress() {
+        const progress = document.getElementById("upload_progress");
+        const upload_message = document.getElementById("upload_message");
+        upload_message.style.display="none";
+        progress.style.display="block";
+    }
+
+    function hide_progress() {
+        const progress = document.getElementById("upload_progress");
+        const upload_message = document.getElementById("upload_message");
+        upload_message.style.display="block";
+        progress.style.display="none";
+    }
+
+    function update_message() {
+        message = "UPLOADING..."
+    }
 
     function highlight(e) {
         e.target.parentElement.parentElement.style.backgroundColor = "#f3f3f3";
@@ -93,43 +115,49 @@
 </Breadcrumb>
   
 <main class="container">
-  
     <h1>Edit cards</h1>
-
-
     <div class = "grid">
-    <div>
-        <h4>category. <select name="category" on:change="{fetch_cards}" id="category"></select></h4>
-    </div>
-            <div style="margin-top:10px;">
-                <div class="input-container" on:dragenter={highlight} on:dragexit={un_highlight}
-                                            on:drop={un_highlight} 
-                                            >
-                <form method="POST"  id="upload-form"
-                    enctype="multipart/form-data">
+        <div>
+            <h4>category. <select name="category" on:change="{fetch_cards}" id="category"></select></h4>
+        </div>
+        <div style="margin-top:10px;">
 
-                    <input id="upload_file_name" type="hidden" name="upload_file_name">
-                    <input multiple=true 
-                        id="upload_file" 
-                        bind:files 
-                        class = "file" 
-                        accept="image/*"
-                        type="file" 
-                        name="upload_file">
-                    <button id="upload">Upload</button>
-                    
-                </form>
+            <div class="input-container" on:dragenter={highlight} on:dragexit={un_highlight}
+                                        on:drop={un_highlight} 
+                                        >
+            <form on:submit="{update_message}" 
+                method="POST"  
+                id="upload-form"
+                use:enhance={({ form, data, cancel }) => {
+                    show_progress();
+                    return async ({ result }) => {
+                      hide_progress();
+                      message = "Done";
+                    };}}
+                enctype="multipart/form-data"
+                >
 
-                <!-- credit to prasanjit https://codepen.io/prasanjit/pen/NxjZMO-->
-                <div class="file-drop-area">
-                    <span class="fake-btn">Choose files</span>
-                    <span class="file-msg">{ message }</span>
-                </div>
+                <input id="upload_file_name" type="hidden" name="upload_file_name">
+                <input multiple=true 
+                    id="upload_file" 
+                    bind:files 
+                    class = "file" 
+                    accept="image/*"
+                    type="file" 
+                    name="upload_file">
+                <button id="upload">Upload</button>
+                
+            </form>
 
+            <!-- credit to prasanjit https://codepen.io/prasanjit/pen/NxjZMO-->
+            <div class="file-drop-area">
+                <span class="fake-btn">Choose files</span>
+                <span class="file-msg">{ message }</span>
             </div>
-            <div class="message">{form?.message ?? 'insert uploaded images as: ![](/images/____), where _____ is the name of your file.'}</div>
-
-    </div>
+        </div>
+        <progress id="upload_progress" style="display: none;"></progress>
+        <div id="upload_message" class="message">{form?.message ?? 'insert uploaded images as: ![](/images/____), where _____ is the name of your file.'}</div>
+     </div>
     </div>
 
     {#each cards as card}

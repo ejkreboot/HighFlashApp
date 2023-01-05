@@ -14,12 +14,14 @@
     "@types/sanitize-html": "^2.6.2",
     "scss": "^0.2.4",
     "svelte": "^3.44.0",
+    "svelte-loading-spinners": "^0.3.4",
     "svelte-preprocess": "^4.10.7",
     "vite": "^4.0.1",
     "why-is-node-still-running": "^1.0.0"
   },
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.241.0",
     "bcrypt": "^5.1.0",
     "celery": "github:ejkreboot/celery",
     "filedrop-svelte": "^0.1.2",

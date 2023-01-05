@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import { redirect } from '@sveltejs/kit';
 import { User } from '$lib/server/user.js';
+import { S3Read } from '$lib/server/sthree.js';
 
 const BASEURL = process.env.HIGHFLASH_PROTOCOL + "://" + 
                 process.env.HIGHFLASH_HOST + 
@@ -16,6 +17,22 @@ export const handle = async ({ event, resolve }) => {
 
   if(path == "/") {
     throw redirect(307, '/public/auth/login');
+  }
+
+  if(path.match("^/images")) {
+    const image_path = path.replace("/images/", "")  
+    console.log(image_path);
+    //const img = await fetch("https://highflashimages.s3.us-east-2.amazonaws.com/" + image_path)
+    const img = await S3Read(image_path)
+    const options = {
+      status:200,
+      headers: {
+        "Content-type" : "application/octet-stream",
+        "Content-Disposition": "attachment; filename=" + image_path
+      }
+    }
+    var res = new Response(img, options );
+    return(res);
   }
 
 
