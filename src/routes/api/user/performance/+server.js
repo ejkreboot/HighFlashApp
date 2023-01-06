@@ -2,10 +2,10 @@ import { User } from '$lib/server/user.js';
 import cookie from 'cookie';
 import { Cards } from "high-flash";
 
-const c = new Cards();
 
 // study card
 export async function GET({ request, params }) {
+  const c = new Cards();
   const session = cookie.parse(request.headers.get("cookie")).session;
   const categories = await c.get_categories();
   const user = await User.findOne(
@@ -27,7 +27,7 @@ export async function GET({ request, params }) {
       total_cards: total
     })
   }))
-
+  await c.close_db();
   return new Response(JSON.stringify(perf));
 }
 

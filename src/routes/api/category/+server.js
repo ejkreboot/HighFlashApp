@@ -1,8 +1,10 @@
 import { Cards } from "high-flash";
 
-const c = new Cards();
 
 // get list of all categories
 export async function GET({ request, url, params }) {
-  return new Response(JSON.stringify(await(c.get_categories())));
+  const c = new Cards();
+  const cats = await(c.get_categories())
+  await c.close_db();
+  return new Response(cats);
 }

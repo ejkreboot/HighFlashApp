@@ -1,5 +1,4 @@
 import { Cards } from "high-flash";
-const c = new Cards(true, 'data/cards.sqlite');
 import { S3Save } from '$lib/server/sthree.js';
 
 /*
@@ -7,7 +6,9 @@ import { S3Save } from '$lib/server/sthree.js';
  */
 
 export const load = async ({ locals }) => {
+    const c = new Cards(true, 'data/cards.sqlite');
     const categories = await c.get_categories();
+    await c.close_db();
     return {
       categories: categories
     }
