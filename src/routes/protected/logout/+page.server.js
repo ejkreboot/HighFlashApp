@@ -9,6 +9,7 @@ export const load = async () => {
 
 export const actions  = {
   default({ cookies }) {
+    console.log("Logout endpoint called.")
     cookies.set('session', '', {
       path: '/',
       expires: new Date(0),
