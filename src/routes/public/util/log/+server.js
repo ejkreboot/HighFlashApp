@@ -8,7 +8,7 @@ export async function POST({ request, params, url }) {
     if(log_token && log_token == url.searchParams.get("token")) {
         const logtail = new Logtail(process.env.HIGHFLASH_LOGTAIL_TOKEN);
         let msg = await request.json();
-        logtail.log("Event from LOGGING ENDPOINT", {received_message: msg});
+        await logtail.log(msg);
         res = new Response("OK", {status: 200});
     } else {
         const options = {
