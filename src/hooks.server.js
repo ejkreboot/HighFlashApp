@@ -35,6 +35,16 @@ export const handle = async ({ event, resolve }) => {
     return(res);
   }
 
+  if(path.match("/public/auth/logout")) {
+    console.log("logging out")
+    event.cookies.set('session', '', {
+      path: '/',
+      expires: new Date(0),
+    })
+    return await resolve(event);
+  }
+
+
 
   if(path.match("/api")) {
     return await resolve(event);

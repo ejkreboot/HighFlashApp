@@ -6,14 +6,3 @@ export const load = async () => {
   // and don't need to see the page
   throw redirect(302, '/public/auth/login')
 }
-
-export const actions  = {
-  default({ cookies }) {
-    console.log("Logout endpoint called.")
-    cookies.set('session', '', {
-      path: '/',
-      expires: new Date(0),
-    })
-    throw redirect(302, '/public/auth/login')
-  }
-}
