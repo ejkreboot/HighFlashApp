@@ -44,8 +44,6 @@ export const handle = async ({ event, resolve }) => {
     return await resolve(event);
   }
 
-
-
   if(path.match("/api")) {
     return await resolve(event);
   }
