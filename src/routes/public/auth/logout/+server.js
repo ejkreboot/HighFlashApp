@@ -1,4 +1,4 @@
-export async function POST({ request, params }) {
-    console.log("POST request at logout endpoint received.")
+export async function GET({ request, params }) {
+    console.log("GET request at logout endpoint received.")
     return new Response(JSON.stringify({result: "OK"}));
 }
