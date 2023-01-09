@@ -44,7 +44,7 @@ export async function GET({ request, url }) {
     const session = await fetch_session(idp_session_token)
     try {
       const auth_token = jwt.verify(session.token, public_key, options);
-      session_token = nanoid();
+      session_token = session.token;
       destination = session.destination;
       const user = await User.upsert({ email: auth_token.email, token: session_token, status: "verified"})
     } catch(err) {
