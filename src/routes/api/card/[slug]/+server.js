@@ -18,6 +18,31 @@ export async function POST({ request, params }) {
   card.back = sanitizeHtml(card.back);
   await c.update_card(card);
   await c.close_db()
-  return new Response(JSON.stringify({result: "OK"}));
+  const options = {
+    status: 201,
+    stausText: "Card updated."
+  }  
+  return new Response({result: "sucess"}, options);
 }
 
+export async function DELETE({ params }) {
+  const c = new Cards(true);
+  const count = await(c.delete_card(params.slug));
+
+  let options, body;
+  if(count) {
+    options = {
+      status: 201,
+      stausText: ""
+    }  
+    body = ""
+  } else {
+    options = {
+      status: 404,
+      stausText: "Card not found"
+    }  
+    body = ""
+  }
+  await c.close_db()
+  return new Response(body, options);
+}

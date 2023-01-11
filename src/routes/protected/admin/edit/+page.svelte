@@ -4,7 +4,6 @@
     import Breadcrumb from '$lib/Breadcrumb.svelte';
     import Edittable from '$lib/Edittable.svelte';
 
-    let cards = [];
     let files, filenames = [];
     export let message = "or drag and drop files here."
     export let allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF"];
@@ -12,6 +11,8 @@
     export let form;
     export let data; 
 
+    let cards = [];
+    $: cardlist = cards;
 
     async function fetch_cards () {
         const category = document.getElementById("category").value;
@@ -42,6 +43,14 @@
         let res = await response.json();
     }
 
+    async function remove_card (event) {
+        const category = document.getElementById("category").value;
+        const url = '/api/card/' + event.detail.uuid;
+        const response = await fetch(url, { 
+                method: 'DELETE',
+        })
+        cards = cards.filter((i) => (i.uuid != event.detail.uuid));
+    }
 
     function show_progress() {
         const progress = document.getElementById("upload_progress");
@@ -160,8 +169,8 @@
      </div>
     </div>
 
-    {#each cards as card}
-    <Edittable on:message={update_card} uuid={card.uuid} front={card.front} back={card.back}/>
+    {#each cardlist as card}
+    <Edittable on:remove={ remove_card } on:update={ update_card } uuid={card.uuid} front={card.front} back={card.back}/>
     {/each}
 </main>
 <style>

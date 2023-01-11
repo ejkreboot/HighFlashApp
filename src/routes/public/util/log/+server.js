@@ -5,9 +5,11 @@ export async function POST({ request, url }) {
     const log_token = process.env.HIGHFLASH_LOG_TOKEN || null;
     let res;
     if(log_token && log_token == url.searchParams.get("token")) {
-        let msg = await request.json();
-        console.log("LOG MESSAGE: " + JSON.stringify(msg.jsonPayload.message).substring(0, 1000));
-//        await logtail.debug(msg);
+        let msg = JSON.stringify(await request.json());
+        if(msg.length > 1000) {
+            msg = msg.substring(0, 1000) + " ... (truncated)";
+        }
+        console.log("HF LOGGER: " + msg)
         res = new Response("OK", {status: 200});
     } else {
         const options = {

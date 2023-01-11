@@ -11,11 +11,20 @@
     };
 
     const dispatch = createEventDispatcher();
+
     function update() {
-        dispatch("message", {
+        console.log("Updating card with UUID " + uuid)
+        dispatch("update", {
             uuid: uuid,
             front: front,
             back: back,
+        });
+    }
+
+    function remove() {
+        console.log("Removing card with UUID " + uuid)
+        dispatch("remove", {
+            uuid: uuid
         });
     }
 
@@ -66,6 +75,7 @@
         return s.replace("<p>", "<p class='rendered-markdown'>");
     }
 </script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <article>
     <div class="hidden">{uuid}</div>
@@ -109,6 +119,7 @@
                 </div>
             </div>
         </div>
+        <i style="cursor: pointer;" class="fa fa-trash" on:keydown={ remove } on:click={ remove }></i>
     </div>
     <div style="clear: both;" />
 </article>
