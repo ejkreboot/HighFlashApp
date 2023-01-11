@@ -1,14 +1,13 @@
 import * as dotenv from 'dotenv' 
 dotenv.config()
-import { Logtail } from "@logtail/node";
 
-export async function POST({ request, params, url }) {
+export async function POST({ request, url }) {
     const log_token = process.env.HIGHFLASH_LOG_TOKEN || null;
     let res;
     if(log_token && log_token == url.searchParams.get("token")) {
-        const logtail = new Logtail(process.env.HIGHFLASH_LOGTAIL_TOKEN);
         let msg = await request.json();
-        await logtail.debug(msg);
+        console.log(msg);
+//        await logtail.debug(msg);
         res = new Response("OK", {status: 200});
     } else {
         const options = {
