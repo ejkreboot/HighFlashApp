@@ -6,7 +6,7 @@ export async function POST({ request, url }) {
     let res;
     if(log_token && log_token == url.searchParams.get("token")) {
         let msg = await request.json();
-        console.log(msg);
+        console.log("LOG MESSAGE: " + msg);
 //        await logtail.debug(msg);
         res = new Response("OK", {status: 200});
     } else {
