@@ -3,7 +3,7 @@ import { User } from '$lib/server/user.js';
 export async function GET({ request, params, url }) {
     console.log("GET request at logout endpoint received with params:");
     console.log(params)
-    const session_token = url.searchParams.get('session_token');
+    const email = url.searchParams.get('user_email');
     const options = {
         headers: {
             "Access-Control-Allow-Origin": "https://highflowpeds.com"
@@ -11,7 +11,7 @@ export async function GET({ request, params, url }) {
     }
     await User.update(
         { token: '' },
-        { where: { token: session_token } }
+        { where: { email: email } }
     )
     return new Response(JSON.stringify({result: "OK"}), options);
 }
