@@ -14,6 +14,16 @@ export const load = async ({ locals }) => {
     }
   }
 
+async function import_csv(data) {
+    const chunks = [];
+    for await (const chunk of data.stream()) {
+        chunks.push(Buffer.from(chunk));
+    }
+    const file = Buffer.concat(chunks);
+    const csv = file.toString('utf8');
+    console.log(csv);
+}
+
 /*
  *  Backend scripting for file uploader via default POST action
  *
@@ -26,7 +36,7 @@ function get_ext(f) {
 }
 
 function file_filter(filelist) {
-    const allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF"];
+    const allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".csv", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF",".CSV"];
     return(filelist.map(f => { return(allowed.indexOf(get_ext(f)) > -1 )}));
 }
 
@@ -42,10 +52,15 @@ export const actions = {
         filenames = filenames.filter((f,i) => file_ok[i]);
 
         const result = await Promise.all(files.map(async (f, i) => {
-            console.log(i);
             const filename = filenames[i];
-            // To Do: don't over write files. 
-            await S3Save(f, filename);
+            console.log(get_ext(filename));
+            if(get_ext(filename).toUpperCase() == ".CSV") {
+                console.log("Importing CSV");
+                await import_csv(f);
+            } else {
+                // To Do: don't over write files. 
+                await S3Save(f, filename);
+            }
             return(true);
         }))
 

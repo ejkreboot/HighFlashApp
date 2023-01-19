@@ -3,7 +3,7 @@
 	let files, filenames = [];
     export let form;
     export let message = "or drag and drop files here."
-    export let allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF"];
+    export let allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".csv", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".CSV"];
 
     function highlight(e) {
         e.target.parentElement.parentElement.style.backgroundColor = "#f3f3f3";
@@ -15,6 +15,7 @@
     
     function get_ext(f) {
         const ext = f.replace(/(.*)(\.\w{2,4})/, "$2")
+        console.log(ext);
         return(ext)
     }
 
@@ -40,7 +41,7 @@
                 message = allowed.length ? allowed[0] : "";
             }
             if(ignored.length > 0) {
-                message = message + "(" + ignored.length + " files ignored--only .png, .jpg, and .tif are supported.)"
+                message = message + "(" + ignored.length + " files ignored--only .png, .jpg, .tif, and .csv are supported.)"
             }
             document.getElementById('upload_file_name').value = filenames;
         };

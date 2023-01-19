@@ -87,8 +87,10 @@ export const handle = async ({ event, resolve }) => {
     const regex = /^\/public/g;
     const pub = path.match(regex);
     if(!pub) {
-      // requested a protected route invalid token...
-      throw redirect(307, '/public/auth/login');
+      // requested a protected route invalid token...re-auth
+      throw redirect(307, process.env.HIGHFLASH_SSO_URI + "?" +
+                            "requested_url=" + event.url + 
+                            "&auth_url=" + BASEURL + "public/auth/sso");
     }
     // stale session cookie but public route so ok to continue...
   }

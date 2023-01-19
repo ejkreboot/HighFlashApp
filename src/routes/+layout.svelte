@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-<title>Auth Example</title>
+<title>High Flash</title>
 </svelte:head>
 <nav class="container-fluid">
     <ul>
