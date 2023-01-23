@@ -21,9 +21,29 @@
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-            }
+                }
         })
         cards = await response.json();
+        return;
+    }
+
+    async function add_card (event) {
+        const category = document.getElementById("category").value;
+        const url = '/api/card';
+        let card = {
+            front: "",
+            back: "",
+            category: category
+        }
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                    'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(card)
+        });
+        card = await response.json(); // add uuid
+        cards = [...cards, card];
     }
 
     async function update_card (event) {
@@ -157,7 +177,6 @@
                 <button id="upload">Upload</button>
                 
             </form>
-
             <!-- credit to prasanjit https://codepen.io/prasanjit/pen/NxjZMO-->
             <div class="file-drop-area">
                 <span class="fake-btn">Choose files</span>
@@ -172,6 +191,8 @@
     {#each cardlist as card}
     <Edittable on:remove={ remove_card } on:update={ update_card } uuid={card.uuid} front={card.front} back={card.back}/>
     {/each}
+    <button class="add_button" on:click={ add_card }>New Card</button>
+
 </main>
 <style>
        #upload-form {

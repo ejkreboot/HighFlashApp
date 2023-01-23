@@ -97,7 +97,6 @@
       <div id="right-shadowbox" class="shadow right-shadow"> </div>
       <div id="left-shadowbox" class="shadow left-shadow"> </div>
       <div id="middle-shadowbox" class="shadow"> </div>
-      <div id="score" class="card-score">{ JSON.stringify(score) }</div>
       <div class="card-content">
         <h4 class="card-title">question.</h4><br>
         {@html marked.parse(front)}

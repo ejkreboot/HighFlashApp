@@ -2,7 +2,6 @@ import { User } from '$lib/server/user.js';
 import { Cards } from "high-flash";
 import cookie from 'cookie';
 
-
 // get next card for studying
 export async function GET({ request, params, url }) {
   const c = new Cards();
@@ -17,4 +16,22 @@ export async function GET({ request, params, url }) {
   const card = await c.next_card(user.email, category);
   await c.close_db()
   return new Response(JSON.stringify(card));
+}
+
+// create a new card
+export async function POST({ request, params, url }) {
+  const c = new Cards();
+  let card = await request.json();
+  card = await c.add_card(card.front, card.back, card.category);
+  await c.close_db()
+  const options = {
+    status:201,
+    headers: {
+      "Content-type" : "application/json",
+      "Content-Language": "en"
+    }
+  }
+  const body = card;
+  const res = new Response(JSON.stringify(body), options);
+  return(res);
 }

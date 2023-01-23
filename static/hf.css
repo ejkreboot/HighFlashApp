@@ -10,13 +10,18 @@
     --gray:  #9ca4b4;
 }
 
+p {
+    font-size: 14px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
 .container {
     padding-top: 10px;
 }
 
-p {
-    font-size: 14px;
-}
 
 .container-fluid {
     padding-bottom: 20px;
@@ -116,3 +121,13 @@ small {
   margin-left: 10px;
 }
 
+.add_button {
+    font-family: "avenir";
+    background-color: var(--blue);
+    border-color: var(--blue);
+    height: 20px;
+    padding: 0px 0px 30px 0px;
+    margin-right: 20px;
+    margin-left: auto;
+    width: 150px;
+}
