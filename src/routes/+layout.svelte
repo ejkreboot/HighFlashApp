@@ -5,24 +5,20 @@
 <svelte:head>
 <title>High Flash</title>
 </svelte:head>
+{ #if data.mode != 'embed' }
 <nav class="container-fluid">
-    { #if data.mode != 'embed' }
     <ul>
         <li><img alt="Logo" src="/HFP_300_41.png"/></li>
     </ul>
-    {/if}
     <ul>
         {#if !data.email}
-            {#if data.mode != 'embed'}
                 <li><a href="/public/auth/login">Login</a></li>
                 <li><a href="/public/auth/register">Register</a></li>
-            {/if}
         {/if}
         {#if data.email}
             {#if data.group == "admin"}
                 <li><a href="/protected/admin/edit">Edit Cards</a></li>
             {/if}
-            {#if data.mode != 'embed'}
                 <li><a href="/protected/study">Flash Cards</a></li>
                 <li>Handouts</li>
                 <li>Podcasts</li>
@@ -32,13 +28,19 @@
                         action="/protected/logout" 
                         method="POST">
                 </form>
-            {/if}
         {/if}
     </ul>
 </nav>
+{ :else }
+    { #if data.group == "admin" }
+        <div>&nbsp; <small><a href="/protected/admin/edit">Edit Cards</a></small></div>
+    { /if}
+{ /if }
 
 <slot />
 
+{ #if data.mode != 'embed' }
 <!--
 <center><small>Copyright 2022 Eric J. Kort. All rights reserved.</small></center>
 -->
+{ /if }

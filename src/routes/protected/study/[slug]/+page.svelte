@@ -3,6 +3,8 @@
   import { onMount } from 'svelte';
   import { marked } from "marked";
   import Breadcrumb from '$lib/Breadcrumb.svelte';
+  export let data;
+  
   let card = {front: "", back: "", n: 0, interval: 0, efactor: 1.3}
   card.score = {};
 
@@ -77,11 +79,14 @@
   })
 
 </script>
-<Breadcrumb>
-  <div>Neurology</div>
-  <div>Flash Cards</div>
-  <div>Learning Home</div>
-</Breadcrumb>
+
+{ #if data.mode != 'embed' }
+  <Breadcrumb>
+    <div>Neurology</div>
+    <div>Flash Cards</div>
+    <div>Learning Home</div>
+  </Breadcrumb>
+{ /if }
 
 <main class="container">
 
