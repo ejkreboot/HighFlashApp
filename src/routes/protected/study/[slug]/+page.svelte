@@ -96,39 +96,40 @@
       <h2>click the card to flip, click the buttons to indicate how well you know the material.</h2>
     </hgroup>
 </header>
-{#if front == ""} 
-<center>
-  <div style="margin-top: 200px;">
-  <Circle3 duration="3s"/> 
-  </div>
-</center>
-{:else} 
 <div id="container" class="fc-container"> 
-  <div id="card" class="card drop-shadow">
-    <div id="front" class="card-front">
-      <div id="right-shadowbox" class="shadow right-shadow"> </div>
-      <div id="left-shadowbox" class="shadow left-shadow"> </div>
-      <div id="middle-shadowbox" class="shadow"> </div>
-      <div class="card-content">
-        <h4 class="card-title">question.</h4><br>
-        {@html marked.parse(front)}
+  {#if front == ""} 
+    <center>
+      <div style="margin-top: 200px; padding-left: 50%;">
+      <Circle3 duration="3s"/> 
+      </div>
+    </center>
+  {:else} 
+    <div id="card" class="card drop-shadow">
+      <div id="front" class="card-front">
+        <div id="right-shadowbox" class="shadow right-shadow"> </div>
+        <div id="left-shadowbox" class="shadow left-shadow"> </div>
+        <div id="middle-shadowbox" class="shadow"> </div>
+        <div class="card-content">
+          <h4 class="card-title">question.</h4><br>
+          {@html marked.parse(front)}
+        </div>
+      </div>
+      <div id="back" class="card-back">
+        <div class="card-content">
+          <h4>answer.</h4><br>
+          {@html marked.parse(back)}
+        </div>
       </div>
     </div>
-    <div id="back" class="card-back">
-      <div class="card-content">
-        <h4>answer.</h4><br>
-        {@html marked.parse(back)}
-      </div>
-    </div>
+  {/if}
   </div>
-</div>
-<div class="button-container">
-  <button class="red" on:click={function(){study_card(1)}}>nope.</button>
-  <button class="yellow" on:click={function(){study_card(3)}}>sorta.</button>
-  <button class="green" on:click={function(){study_card(5)}}>got it.</button>
-</div>
-
-{/if}
+  {#if front != ""} 
+  <div class="button-container">
+    <button class="red" on:click={function(){study_card(1)}}>nope.</button>
+    <button class="yellow" on:click={function(){study_card(3)}}>sorta.</button>
+    <button class="green" on:click={function(){study_card(5)}}>got it.</button>
+  </div>
+  {/if}
 
 <!-- invisible div to ensure css styles are not omitted by 
      sveltekit if not present on initial page render.       -->

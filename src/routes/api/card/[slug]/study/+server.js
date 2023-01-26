@@ -16,6 +16,8 @@ export async function POST({ request, params }) {
         where: { token: session } 
     });
   
+  console.log("Scording card: ", JSON.stringify(card)); 
+  console.log("For user: ", JSON.stringify(user));
   const scores = await c.study(user.email, card_id, data.score);
   const nc = await c.next_card(user.email, card.category, card_id)
   await c.close_db()
