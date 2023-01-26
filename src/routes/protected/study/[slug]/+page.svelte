@@ -2,15 +2,15 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { marked } from "marked";
+  import { Circle3 } from 'svelte-loading-spinners';
   import Breadcrumb from '$lib/Breadcrumb.svelte';
   export let data;
-  
+
   let card = {front: "", back: "", n: 0, interval: 0, efactor: 1.3}
   card.score = {};
 
   $: front = card.front;
   $: back = card.back;
-  $: score = card.score;
 
   async function get_card() {
       const url = '/api/card/?category=' + $page.params.slug;
@@ -96,7 +96,14 @@
       <h2>click the card to flip, click the buttons to indicate how well you know the material.</h2>
     </hgroup>
 </header>
-<div id="container" class="fc-container">
+{#if front == ""} 
+<center>
+  <div style="margin-top: 200px;">
+  <Circle3 duration="3s"/> 
+  </div>
+</center>
+{:else} 
+<div id="container" class="fc-container"> 
   <div id="card" class="card drop-shadow">
     <div id="front" class="card-front">
       <div id="right-shadowbox" class="shadow right-shadow"> </div>
@@ -121,9 +128,11 @@
   <button class="green" on:click={function(){study_card(5)}}>got it.</button>
 </div>
 
+{/if}
+
 <!-- invisible div to ensure css styles are not omitted by 
      sveltekit if not present on initial page render.       -->
-<div class = "sveltefix card container-fluid card-content card-flipped middle-shadow middle-shadow off red-text yellow-text green-text">
+<div class = "card-title card-back button-container sveltefix card container-fluid card-content card-flipped middle-shadow middle-shadow-off red-text yellow-text green-text">
     <ul>
       <li>.</li>
     </ul>
