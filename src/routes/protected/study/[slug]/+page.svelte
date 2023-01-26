@@ -163,13 +163,6 @@
   box-shadow: 5 0px 10px rgba(0, 0, 0, 0.5);
 }
 
-.card-score {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  font-size: 12px;
-}
-
 .container * {
   transition: transform 500ms cubic-bezier(0.28, 0.935, 0.82, 0.95);
 }
