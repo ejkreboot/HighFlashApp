@@ -29,6 +29,7 @@ async function fetch_session(token) {
     body: JSON.stringify({"session_token": token})
   })
   const body = await response.json();
+  console.log("Retrieve session: " + JSON.stringify(body))
   return {token: body.auth_token, destination: body.destination};
 }
 
@@ -44,10 +45,13 @@ export async function GET({ request, url }) {
     const session = await fetch_session(idp_session_token)
     try {
       const auth_token = jwt.verify(session.token, public_key, options);
+      console.log("Verifid token: ", JSON.stringify(auth_token);
       session_token = session.token;
       destination = session.destination;
+      console.log("Upserting new session: ", session_token)
       const user = await User.upsert({ email: auth_token.email, token: session_token, status: "verified"})
     } catch(err) {
+        console.log("Error: ", err)
         session_token = "";
         destination = BASEURL + "public/auth/login";
     }
@@ -56,6 +60,7 @@ export async function GET({ request, url }) {
     destination = BASEURL + "public/auth/login";
   }
 
+  console.log("Redirecting to ", destination);
   let res = new Response("<html><head><meta http-equiv='Refresh' content='0; url=" + destination + "'><head></html>");
   res.headers.append("Content-Type", "text/html; charset=utf-8");
   res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Path=/; Max-Age=86400");
