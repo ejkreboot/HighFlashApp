@@ -15,6 +15,9 @@ export const handle = async ({ event, resolve }) => {
   const session = event.cookies.get('session')
   const path = event.url.pathname;
 
+  console.log("HOOKS: processing event.")
+  console.log("HOOKS: session is " + JSON.stringify(session))
+
   if(path == "/") {
     throw redirect(307, '/public/auth/login');
   }
