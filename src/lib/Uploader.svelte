@@ -15,7 +15,6 @@
     
     function get_ext(f) {
         const ext = f.replace(/(.*)(\.\w{2,4})/, "$2")
-        console.log(ext);
         return(ext)
     }
 

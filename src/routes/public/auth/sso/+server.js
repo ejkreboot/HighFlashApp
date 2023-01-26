@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import { User } from '$lib/server/user.js';
-import { nanoid } from 'nanoid';
 
 const DEBUG = false;
 
@@ -58,6 +57,6 @@ export async function GET({ request, url }) {
 
   let res = new Response("<html><head><meta http-equiv='Refresh' content='0; url=" + destination + "'><head></html>");
   res.headers.append("Content-Type", "text/html; charset=utf-8");
-  res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Path=/; Max-Age=86400");
+  res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=Strict; Secure; HttpOnly; Path=/; Max-Age=86400");
   return res;
 }

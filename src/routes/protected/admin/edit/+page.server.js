@@ -21,7 +21,6 @@ async function import_csv(data) {
     }
     const file = Buffer.concat(chunks);
     const csv = file.toString('utf8');
-    console.log(csv);
 }
 
 /*
