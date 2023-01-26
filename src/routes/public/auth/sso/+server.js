@@ -62,7 +62,7 @@ export async function GET({ request, url }) {
 
   log("Redirecting to " + destination);
   log("Setting session cookie to " + session_token);
-  let res = new Response("<html><head><meta http-equiv='Refresh' content='60; url=" + destination + "'><head>Redirecting....</html>");
+  let res = new Response("<html><head><meta http-equiv='Refresh' content='60'; url=" + destination + "'><head>Redirecting....</html>");
   res.headers.append("Content-Type", "text/html; charset=utf-8");
   res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Max-Age=86400");
   return res;
