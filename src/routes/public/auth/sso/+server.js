@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import { User } from '$lib/server/user.js';
+import { nanoid } from 'nanoid';
 
-const DEBUG = true;
+const DEBUG = false;
 
 function log(m) {
   if(DEBUG) { console.log(m)}
@@ -28,7 +29,6 @@ async function fetch_session(token) {
     body: JSON.stringify({"session_token": token})
   })
   const body = await response.json();
-  log("Retrieve session: " + JSON.stringify(body));
   return {token: body.auth_token, destination: body.destination};
 }
 
@@ -43,15 +43,11 @@ export async function GET({ request, url }) {
   if(idp_session_token) {
     const session = await fetch_session(idp_session_token)
     try {
-      log("Received token: " + JSON.stringify(session.token));
       const auth_token = jwt.verify(session.token, public_key, options);
-      log("Verified token: " + JSON.stringify(auth_token));
       session_token = session.token;
       destination = session.destination;
-      log("Upserting new session: " + JSON.stringify(session_token))
       const user = await User.upsert({ email: auth_token.email, token: session_token, status: "verified"})
     } catch(err) {
-        log("Error: " + JSON.stringify(err))
         session_token = "";
         destination = BASEURL + "public/auth/login";
     }
@@ -60,10 +56,8 @@ export async function GET({ request, url }) {
     destination = BASEURL + "public/auth/login";
   }
 
-  log("Redirecting to " + destination);
-  log("Setting session cookie to " + session_token);
-  let res = new Response("<html><head><meta http-equiv='Refresh' content='60'; url=" + destination + "'><head>Redirecting....</html>");
+  let res = new Response("<html><head><meta http-equiv='Refresh' content='0; url=" + destination + "'><head></html>");
   res.headers.append("Content-Type", "text/html; charset=utf-8");
-  res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Max-Age=86400");
+  res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Path=/; Max-Age=86400");
   return res;
 }
