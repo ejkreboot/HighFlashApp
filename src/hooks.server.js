@@ -95,7 +95,6 @@ export const handle = async ({ event, resolve }) => {
     const pub = path.match(regex);
     if(!pub) {
       // requested a protected route invalid token...re-auth
-      throw redirect(307, "www.example.com");
       throw redirect(307, process.env.HIGHFLASH_SSO_URI + "?" +
                             "requested_url=" + event.url + 
                             "&auth_url=" + BASEURL + "public/auth/sso");

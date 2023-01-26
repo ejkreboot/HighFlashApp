@@ -43,7 +43,7 @@ export async function GET({ request, url }) {
   if(idp_session_token) {
     const session = await fetch_session(idp_session_token)
     try {
-      log("Receivedtoken: " + JSON.stringify(session_token));
+      log("Received token: " + JSON.stringify(session.token));
       const auth_token = jwt.verify(session.token, public_key, options);
       log("Verified token: " + JSON.stringify(auth_token));
       session_token = session.token;
@@ -61,6 +61,7 @@ export async function GET({ request, url }) {
   }
 
   log("Redirecting to " + destination);
+  log("Setting session cookie to " + session_token);
   let res = new Response("<html><head><meta http-equiv='Refresh' content='0; url=" + destination + "'><head></html>");
   res.headers.append("Content-Type", "text/html; charset=utf-8");
   res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Path=/; Max-Age=86400");
