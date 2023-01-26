@@ -5,25 +5,22 @@
 <svelte:head>
 <title>High Flash</title>
 </svelte:head>
-{ #if data.mode != 'embed' }
-<nav class="container-fluid">
+<nav id="navbar" class="container-fluid">
     <ul>
-        <li><img alt="Logo" src="/HFP_300_41.png"/></li>
+        <li><img alt="Logo" src="/HFP_white_300_50.png" width="190"/></li>
     </ul>
     <ul>
         {#if !data.email}
-                <li><a href="/public/auth/login">Login</a></li>
-                <li><a href="/public/auth/register">Register</a></li>
+                <li><a href="https://highflowpeds.com">LOGIN</a></li>
+                <li><a href="https://highflowpeds.com">SIGN UP!</a></li>
         {/if}
         {#if data.email}
             {#if data.group == "admin"}
-                <li><a href="/protected/admin/edit">Edit Cards</a></li>
+                <li><a href="/protected/admin/edit">EDIT</a></li>
             {/if}
-                <li><a href="/protected/study">Flash Cards</a></li>
-                <li>Handouts</li>
-                <li>Podcasts</li>
+                <li><a href="https://highflowpeds.com/topics">HOME</a></li>
                 <li><a href="/protected/logout"
-                    on:click={() => document.getElementById("logout").submit()}>Logout</a></li>
+                    on:click={() => document.getElementById("logout").submit()}>LOGOUT</a></li>
                 <form id="logout" style="display: none" 
                         action="/protected/logout" 
                         method="POST">
@@ -31,16 +28,8 @@
         {/if}
     </ul>
 </nav>
-{ :else }
-    { #if data.group == "admin" }
-        <div>&nbsp; <small><a href="/protected/admin/edit">Edit Cards</a></small></div>
-    { /if}
-{ /if }
-
 <slot />
 
-{ #if data.mode != 'embed' }
 <!--
 <center><small>Copyright 2022 Eric J. Kort. All rights reserved.</small></center>
 -->
-{ /if }

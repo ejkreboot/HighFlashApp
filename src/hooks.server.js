@@ -15,8 +15,6 @@ export const handle = async ({ event, resolve }) => {
   const session = event.cookies.get('session')
   const path = event.url.pathname;
 
-  console.log("HOOKS: processing event.")
-  console.log("HOOKS: session is " + JSON.stringify(session))
 
   if(path == "/") {
     throw redirect(307, '/public/auth/login');
@@ -24,7 +22,6 @@ export const handle = async ({ event, resolve }) => {
 
   if(path.match("^/images")) {
     const image_path = path.replace("/images/", "")  
-    console.log(image_path);
     //const img = await fetch("https://highflashimages.s3.us-east-2.amazonaws.com/" + image_path)
     const img = await S3Read(image_path)
     const options = {
@@ -39,7 +36,6 @@ export const handle = async ({ event, resolve }) => {
   }
 
   if(path.match("/public/auth/logout")) {
-    console.log("logging out")
     event.cookies.set('session', '', {
       path: '/',
       expires: new Date(0),
@@ -73,10 +69,8 @@ export const handle = async ({ event, resolve }) => {
         where: { token: session } 
     });
 
-  console.log("HOOKS: session is " + JSON.stringify(session))
 
   if (user) {
-    console.log("HOOKS: user is " + JSON.stringify(user))
     const regex = /^\/private\/admin/g;
     const admin = path.match(regex);
     if(admin) {
@@ -90,7 +84,6 @@ export const handle = async ({ event, resolve }) => {
       group: user.group
     }
   } else {
-    console.log("HOOKS: User not found.")
     const regex = /^\/public/g;
     const pub = path.match(regex);
     if(!pub) {

@@ -137,11 +137,6 @@
     });
 
 </script>
-
-<Breadcrumb>
-    <div>Edit Cards</div>
-    <div>Learning Home</div>
-</Breadcrumb>
   
 <main class="container">
     <h1>Edit cards</h1>
