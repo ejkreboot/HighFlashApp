@@ -70,7 +70,10 @@ export const handle = async ({ event, resolve }) => {
         where: { token: session } 
     });
 
+  console.log("HOOKS: session is " + JSON.stringify(session))
+
   if (user) {
+    console.log("HOOKS: user is " + JSON.stringify(user))
     const regex = /^\/private\/admin/g;
     const admin = path.match(regex);
     if(admin) {
@@ -84,10 +87,12 @@ export const handle = async ({ event, resolve }) => {
       group: user.group
     }
   } else {
+    console.log("HOOKS: User not found.")
     const regex = /^\/public/g;
     const pub = path.match(regex);
     if(!pub) {
       // requested a protected route invalid token...re-auth
+      throw redirect(307, "www.example.com");
       throw redirect(307, process.env.HIGHFLASH_SSO_URI + "?" +
                             "requested_url=" + event.url + 
                             "&auth_url=" + BASEURL + "public/auth/sso");
