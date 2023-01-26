@@ -43,14 +43,15 @@ export async function GET({ request, url }) {
   if(idp_session_token) {
     const session = await fetch_session(idp_session_token)
     try {
+      log("Receivedtoken: " + JSON.stringify(session_token));
       const auth_token = jwt.verify(session.token, public_key, options);
-      log("Verifid token: ", JSON.stringify(auth_token));
+      log("Verified token: " + JSON.stringify(auth_token));
       session_token = session.token;
       destination = session.destination;
-      log("Upserting new session: ", session_token)
+      log("Upserting new session: " + JSON.stringify(session_token))
       const user = await User.upsert({ email: auth_token.email, token: session_token, status: "verified"})
     } catch(err) {
-        log("Error: ", err)
+        log("Error: " + JSON.stringify(err))
         session_token = "";
         destination = BASEURL + "public/auth/login";
     }
@@ -59,7 +60,7 @@ export async function GET({ request, url }) {
     destination = BASEURL + "public/auth/login";
   }
 
-  log("Redirecting to ", destination);
+  log("Redirecting to " + destination);
   let res = new Response("<html><head><meta http-equiv='Refresh' content='0; url=" + destination + "'><head></html>");
   res.headers.append("Content-Type", "text/html; charset=utf-8");
   res.headers.append("Set-Cookie", "session=" + session_token + "; SameSite=None; Secure; HttpOnly; Path=/; Max-Age=86400");
