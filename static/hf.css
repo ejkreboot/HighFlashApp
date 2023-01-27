@@ -107,18 +107,29 @@ nav {
     overflow-y: scroll;
 }
 
-#navbar {
-    height: 60px;
+#navbar_container {
+    height: 59px;
+    width: 100%;
     background-color: #2f2e2e;
     padding-top: 15px;
-    padding-left: 15%;
-    padding-right: 20%;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
-nav li>* {
+#navbar {
+    width: 980px;
+    margin: 0 auto;
+    padding: 0px 10px 0px 10px;
+}
+#navbar li>* {
     color: #cccccc;
     font-size: 12px;
     font-family: "Avenir";
+}
+
+main .container {
+    width: 980px;
+    padding: 0px 
 }
 
 small {
