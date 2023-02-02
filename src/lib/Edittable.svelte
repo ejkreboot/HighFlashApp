@@ -7,7 +7,7 @@
     export let uuid;
 
     function format(t) {
-        console.log("Formating: ", t);
+        console.log("Formatting: ", t);
         return(marked.parse(t));
     }
     const NS = function (id) {

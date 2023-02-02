@@ -31,7 +31,7 @@
     "filereader": "^0.10.3",
     "form-data": "^4.0.0",
     "getopts": "^2.3.0",
-    "high-flash": "github:ejkreboot/High-Flash",
+    "high-flash": "github:ejkreboot/high-flash",
     "jsonwebtoken": "^9.0.0",
     "marked": "^4.2.3",
     "path-browserify": "^1.0.1",
