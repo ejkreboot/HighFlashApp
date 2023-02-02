@@ -6,6 +6,10 @@
     export let back;
     export let uuid;
 
+    function format(t) {
+        console.log("Formating: ", t);
+        return(marked.parse(t));
+    }
     const NS = function (id) {
         return uuid + "_" + id;
     };
@@ -96,7 +100,7 @@
                     on:click={disable_edit}
                     on:dblclick={enable_edit}
                 >
-                    {@html marked.parse(front)}
+                    {@html format(front)}
                 </div>
             </div>
         </div>
@@ -115,7 +119,7 @@
                     on:click={disable_edit}
                     on:dblclick={enable_edit}
                 >
-                    {@html marked.parse(back)}
+                    {@html format(back)}
                 </div>
             </div>
         </div>
