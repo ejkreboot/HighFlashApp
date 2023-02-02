@@ -37,8 +37,8 @@
     async function add_card (event) {
         const url = '/api/card';
         let card = {
-            front: " ",
-            back: " ",
+            front: "question",
+            back: "answer",
             category: selected
         }
         const response = await fetch(url, {
