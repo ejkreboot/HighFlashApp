@@ -137,12 +137,6 @@
 <style>
 
 
-/* if programmtically swapped classes are not present initially, they 
-   will be excluded from build. Need a place to put them to start. */
-.sveltefix {
-  display: none;
-}
-
 .fc-container {
   position: relative;
   margin: auto;
@@ -261,5 +255,10 @@
    border-width: 0px;
 }
 
+/* if programmtically swapped classes are not present initially, they 
+   will be excluded from build. Need a place to put them to start. */
+   .sveltefix {
+  display: none;
+}
 
 </style>

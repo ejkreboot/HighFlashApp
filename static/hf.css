@@ -107,6 +107,10 @@ nav {
     overflow-y: scroll;
 }
 
+.inputBox:focus {
+    outline: white solid 0px !important; */
+}
+
 #navbar_container {
     height: 59px;
     width: 100%;
@@ -136,7 +140,6 @@ small {
     font-size: 12px;
     color: var(--gray);
 }
-
 
 .card-content > p,
 .card-content > ol,

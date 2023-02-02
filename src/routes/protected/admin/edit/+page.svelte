@@ -1,22 +1,29 @@
 <script>
     import { onMount } from 'svelte';
     import { enhance } from '$app/forms';
-    import Breadcrumb from '$lib/Breadcrumb.svelte';
     import Edittable from '$lib/Edittable.svelte';
+    import Svelecte from 'svelecte';
 
     let files, filenames = [];
     export let message = "or drag and drop files here."
     export let allowed = [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".csv", ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".CSV"];
-    
+
     export let form;
     export let data; 
 
     let cards = [];
     $: cardlist = cards;
 
+    let categories = data.categories;
+    let selected = null;
+
+    function newCategory(c) {
+        categories.push(c.detail.value);
+    }
+
     async function fetch_cards () {
-        const category = document.getElementById("category").value;
-        const url = '/api/category/' + category;
+        let cat = selected || categories[0];
+        const url = '/api/category/' + cat;
         const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -28,12 +35,11 @@
     }
 
     async function add_card (event) {
-        const category = document.getElementById("category").value;
         const url = '/api/card';
         let card = {
             front: "",
             back: "",
-            category: category
+            category: selected
         }
         const response = await fetch(url, {
             method: 'POST',
@@ -64,7 +70,7 @@
     }
 
     async function remove_card (event) {
-        const category = document.getElementById("category").value;
+        //const category = document.getElementById("category").value;
         const url = '/api/card/' + event.detail.uuid;
         const response = await fetch(url, { 
                 method: 'DELETE',
@@ -111,11 +117,9 @@
         return(filelist.filter(f => { return(!(allowed.indexOf(get_ext(f)) > -1 ))}));
     }
 
-    onMount(() => {
-        var select = document.getElementById("category");
-        data.categories.forEach((a,i) =>  select.options[i] = new Option(a, a));
-        select.value = data.categories[0];
-        fetch_cards(data.categories[0]);
+    onMount(() => {        
+        fetch_cards();
+        selected = categories[0];
         document.getElementById('upload_file').onchange = function () {
             filenames = [];
             for(const file of files) {
@@ -133,7 +137,6 @@
             }
             document.getElementById('upload_file_name').value = filenames;
         };
-
     });
 
 </script>
@@ -142,7 +145,14 @@
     <h1>Edit cards</h1>
     <div class = "grid">
         <div>
-            <h4>category. <select name="category" on:change="{fetch_cards}" id="category"></select></h4>
+        <h4 id="category-label">category.</h4>
+            <Svelecte id="category" 
+                            options={categories.map(e => ({label: e, value:e, $created: true}))} 
+                            creatable = true
+                            on:createoption={newCategory}
+                            bind:value={selected}
+                            on:change="{fetch_cards}">
+            </Svelecte>
         </div>
         <div style="margin-top:10px;">
 
@@ -190,8 +200,12 @@
 
 </main>
 <style>
-       #upload-form {
-    margin: 12px;
+    #category-label {
+        margin-bottom: 15px;
+    }
+
+    #upload-form {
+        margin: 12px;
     }
 
     .input-container {
