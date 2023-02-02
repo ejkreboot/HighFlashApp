@@ -37,8 +37,8 @@
     async function add_card (event) {
         const url = '/api/card';
         let card = {
-            front: "",
-            back: "",
+            front: " ",
+            back: " ",
             category: selected
         }
         const response = await fetch(url, {
@@ -70,7 +70,7 @@
     }
 
     async function remove_card (event) {
-        //const category = document.getElementById("category").value;
+        // const category = document.getElementById("category").value;
         const url = '/api/card/' + event.detail.uuid;
         const response = await fetch(url, { 
                 method: 'DELETE',
