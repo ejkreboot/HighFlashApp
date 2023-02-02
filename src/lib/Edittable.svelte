@@ -7,7 +7,6 @@
     export let uuid;
 
     function format(t) {
-        console.log("Formatting: ", t);
         return(marked.parse(t));
     }
     const NS = function (id) {
@@ -17,7 +16,6 @@
     const dispatch = createEventDispatcher();
 
     function update() {
-        console.log("Updating card with UUID " + uuid)
         dispatch("update", {
             uuid: uuid,
             front: front,
@@ -26,7 +24,6 @@
     }
 
     function remove() {
-        console.log("Removing card with UUID " + uuid)
         dispatch("remove", {
             uuid: uuid
         });
