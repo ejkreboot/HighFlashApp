@@ -48,6 +48,8 @@
             },
             body: JSON.stringify(card)
         });
+        console.log("Upgrading card:")
+        console.log(card)
         card = await response.json(); // add uuid
         console.log("Adding card:")
         console.log(card)
