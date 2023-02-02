@@ -49,6 +49,8 @@
             body: JSON.stringify(card)
         });
         card = await response.json(); // add uuid
+        console.log("Adding card:")
+        console.log(card)
         cards = [...cards, card];
     }
 
