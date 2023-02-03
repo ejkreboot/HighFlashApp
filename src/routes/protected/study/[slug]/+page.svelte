@@ -21,6 +21,7 @@
   }
 
   async function study_card(score) {
+    card.front = "";
     const url = "/api/card/" + card.uuid + "/study";
     const response = await fetch(url, {
             method: 'POST',
@@ -42,7 +43,7 @@
       document.getElementsByClassName("card-title")[0].classList.add("gray-text");
     } else if(score.interval < 2) {
       document.getElementsByClassName("card-title")[0].classList.add("red-text");
-    } else if(score.interval < 10) {
+    } else if(score.interval < 5) {
       document.getElementsByClassName("card-title")[0].classList.add("yellow-text");
     } else {
       document.getElementsByClassName("card-title")[0].classList.add("green-text");
@@ -89,7 +90,7 @@
 <div id="container" class="fc-container"> 
   {#if front == ""} 
     <center>
-      <div style="margin-top: 200px; padding-left: 50%;">
+      <div class="spinner">
       <Circle3 duration="3s"/> 
       </div>
     </center>
@@ -259,6 +260,11 @@
    will be excluded from build. Need a place to put them to start. */
    .sveltefix {
   display: none;
+}
+
+.spinner {
+    margin-left: 250px;
+    margin-top: 150px;
 }
 
 </style>
