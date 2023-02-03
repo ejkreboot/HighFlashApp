@@ -22,7 +22,7 @@ export async function POST({ request, params }) {
     status: 201,
     stausText: "Card updated."
   }  
-  return new Response({result: "sucess"}, options);
+  return new Response(JSON.stringify({result: "sucess"}), options);
 }
 
 export async function DELETE({ params }) {

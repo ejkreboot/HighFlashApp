@@ -53,8 +53,9 @@
     }
 
     async function update_card (event) {
-        const category = document.getElementById("category").value;
+        const category = selected;
         const url = '/api/card/' + event.detail.uuid;
+        debugger;
         const response = await fetch(url, { 
                 method: 'POST',
                 headers: {
@@ -66,7 +67,8 @@
                     category: category
                 })
         })
-        let res = await response.json();
+        //let res = await response.json();        
+        //console.log(res)
     }
 
     async function remove_card (event) {
